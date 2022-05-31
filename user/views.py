@@ -17,7 +17,7 @@ def register(request):
         register_form = RegisterForm(request.POST)
         if register_form.is_valid():
             user = register_form.save()
-            profile = Profile(user=user, profile_bio="", profile_pic="profile_pics/avatar.png" )
+            profile = Profile(user=user, profile_bio="deneme")
             profile.save()
             login(request, user)
             messages.success(request, 'Register Succesfull')
@@ -48,17 +48,17 @@ def user_login(request):
 
 @login_required
 def user_profile(request):
-    user_form = UpdateUserForm(instance=request.user)
-    profile_form = UpdateProfileForm(request.FILES, instance=request.user.profile)
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
 
         if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
+            user = user_form.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
             messages.success(request, 'Your profile is updated successfully')
-            return redirect(to='users-profile')
+            return redirect('user_profile')
     else:
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile)

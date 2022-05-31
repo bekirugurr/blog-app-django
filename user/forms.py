@@ -1,3 +1,4 @@
+from cProfile import label
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
@@ -24,19 +25,22 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 
 class UpdateUserForm(forms.ModelForm):
-    username = forms.CharField(max_length=100,
-                               required=True)
-    email = forms.EmailField(required=True)
-
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ('username', 'email')
+        widgets = {
+            'username': forms.TextInput(attrs={'style':'margin-top: .5rem; padding: .5rem 1rem;  border-color: #0D6EFD;' }),
+            'email': forms.EmailInput(attrs={ 'style':'margin-top: .5rem; padding: .5rem 1rem;  border-color: #0D6EFD;' }),
+        }
 
 
 class UpdateProfileForm(forms.ModelForm):
-    profil_pic = forms.ImageField(widget=forms.FileInput())
-    profil_bio = forms.CharField(widget=forms.Textarea(attrs={'rows': 5}))
-
     class Meta:
         model = Profile
-        fields = ['profil_pic', 'profil_bio']
+        exclude = ('user',)
+        labels = {'profile_pic': 'Profile Picture:', 'profile_bio': 'Profile Biography: '}
+        widgets = {
+            'profile_bio': forms.Textarea(attrs={'placeholder': '💪 What are you going to do?', 'class': 'input-style', 'rows' :5,'col':500, 'style':'resize:none; margin-top: .5rem; padding: .5rem ;  border-color: #0D6EFD;' }),
+
+            'profile_pic': forms.ClearableFileInput(attrs={ 'style':'margin-top: .5rem; padding: .5rem 1rem;  border-color: #0D6EFD;' }),
+        }
