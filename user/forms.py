@@ -42,5 +42,5 @@ class UpdateProfileForm(forms.ModelForm):
         widgets = {
             'profile_bio': forms.Textarea(attrs={'placeholder': 'You can add some personel info about yourself', 'class': 'input-style', 'rows' :5,'col':500, 'style':'resize:none; margin-top: .5rem; padding: .5rem ;  border-color: #0D6EFD;' }),
 
-            'profile_pic': forms.ClearableFileInput(attrs={ 'style':'margin-top: .5rem; padding: .5rem 1rem;  border-color: #0D6EFD;' }),
+            'profile_pic': forms.ClearableFileInput(attrs={ 'style':'margin-top: .5rem; padding: .5rem 0;  border-color: #0D6EFD;' }),
         }

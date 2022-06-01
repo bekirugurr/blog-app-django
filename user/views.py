@@ -17,7 +17,7 @@ def register(request):
         register_form = RegisterForm(request.POST)
         if register_form.is_valid():
             user = register_form.save()
-            profile = Profile(user=user, profile_bio="deneme")
+            profile = Profile(user=user, profile_bio="")
             profile.save()
             login(request, user)
             messages.success(request, 'Register Succesfull')
