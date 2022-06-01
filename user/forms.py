@@ -40,7 +40,7 @@ class UpdateProfileForm(forms.ModelForm):
         exclude = ('user',)
         labels = {'profile_pic': 'Profile Picture:', 'profile_bio': 'Profile Biography: '}
         widgets = {
-            'profile_bio': forms.Textarea(attrs={'placeholder': '💪 What are you going to do?', 'class': 'input-style', 'rows' :5,'col':500, 'style':'resize:none; margin-top: .5rem; padding: .5rem ;  border-color: #0D6EFD;' }),
+            'profile_bio': forms.Textarea(attrs={'placeholder': 'You can add some personel info about yourself', 'class': 'input-style', 'rows' :5,'col':500, 'style':'resize:none; margin-top: .5rem; padding: .5rem ;  border-color: #0D6EFD;' }),
 
             'profile_pic': forms.ClearableFileInput(attrs={ 'style':'margin-top: .5rem; padding: .5rem 1rem;  border-color: #0D6EFD;' }),
         }
