@@ -21,7 +21,8 @@ def new_entry(request):
         if form.is_valid():
             entry = form.save()
             entry.writer_id = request.user.id
-            category_form.save()
+            post_category = category_form.save()
+            entry.category_id = post_category.id
             if "post_pic" in request.FILES:
                 entry.post_pic = request.FILES.get('post_pic') 
             entry.save()

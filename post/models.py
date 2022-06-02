@@ -31,7 +31,7 @@ class Post(models.Model):
     status = models.CharField(max_length=50, choices=STATUS, default='Published')
     slug = models.SlugField(null=False, blank=True, editable=False)
     writer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f'{self.title}'
