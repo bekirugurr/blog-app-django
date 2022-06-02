@@ -29,21 +29,21 @@
             </li>
             {% else %}
             <li class="nav-item active mx-2">
-              <a class="nav-link active " href="">{{request.user.username }}</a>
+              <a class="nav-link active " href="">{{ request.user.username }}</a>
             </li>
             {% endif %}
       
             <li class="nav-item active mx-2">
               {% comment %} {% url 'logout' %} {% endcomment %}
-              <a class="nav-link active " href="{% url 'logout' %} ">Log Out</a>
+              <a class="nav-link active " href="{% url 'logout' %}">Log Out</a>
             </li>
             <li class="nav-item active mx-2">
               {% comment %} {% url 'user_profile' %} {% endcomment %}
               <a class="nav-link active " href="{% url 'user_profile' %}">Profile</a>
             </li>
             <li class="nav-item active mx-2">
-              {% comment %} {% url 'new-post' %} {% endcomment %}
-              <a class="nav-link active " href="">New Post</a>
+              {% comment %} {% url 'user_profile' %} {% endcomment %}
+              <a class="nav-link active " href="{% url 'new_entry' %}">New Post</a>
             </li>
             {% else %}
       

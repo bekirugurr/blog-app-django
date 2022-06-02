@@ -17,11 +17,11 @@ class RegisterForm(UserCreationForm):
         self.fields['username'].widget.attrs.update({'placeholder':'🤗 Enter user name', 'class':'form-input', 'style':' padding: .5rem 1rem;  border-color: #0D6EFD; margin: .5rem 0;'})
         self.fields['email'].widget.attrs.update({'placeholder':'📬 Enter email address', 'class':'form-input', 'style':' padding: .5rem 1rem;  border-color: #0D6EFD; margin: .5rem 0;'})
         self.fields['password1'].widget.attrs.update({'placeholder':'🗝 Enter password', 'class':'form-input', 'style':' padding: .5rem 1rem;  border-color: #0D6EFD; margin: .5rem 0;'})        
-        self.fields['password2'].widget.attrs.update({'placeholder':'🗝 Retype password', 'class':'form-input', 'style':' padding: .5rem 1rem;  border-color: #0D6EFD; margin: .5rem 0;'})
+        self.fields['password2'].widget.attrs.update({'placeholder':'🗝 Retype password', 'class':'form-input', 'style':' padding: .5rem 1rem; border-color: #0D6EFD; margin: .5rem 0;'})
 
 class CustomAuthenticationForm(AuthenticationForm):
-    username = forms.CharField(widget=TextInput(attrs={'placeholder': '🤗 Enter your user name', 'style':'margin:1rem 0;'}))
-    password = forms.CharField(widget=PasswordInput(attrs={'placeholder':'🗝 Enter your password','style':'margin:1rem 0;'}))
+    username = forms.CharField(widget=TextInput(attrs={'placeholder': '🤗 Enter your user name', 'style':'margin:1rem 0; border-color: #0D6EFD;'}))
+    password = forms.CharField(widget=PasswordInput(attrs={'placeholder':'🗝 Enter your password','style':'margin:1rem 0;  border-color: #0D6EFD;'}))
 
 
 class UpdateUserForm(forms.ModelForm):
