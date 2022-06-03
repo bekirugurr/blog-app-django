@@ -16,10 +16,15 @@
       crossorigin="anonymous"
     />
 
+    <!-- Fontawesome -->
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+    <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+
     <title>Blog</title>
 </head>
 <body>
-    
+
     {% include "post/navbar.html" %}
     <div style="margin-top: 75px; margin-bottom: 50px" class="container">
         {% if messages %}

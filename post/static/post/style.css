@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+.post-card {
+  width: 19rem;
+  height: 29.7rem;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background: linear-gradient(to right, white, white),
+    linear-gradient(135deg, rgb(155, 43, 67), rgb(19, 70, 118));
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+}
+.post-pic {
+  width: 100%;
+  height: 12rem;
+}
+
+.writer-pic {
+  width: 3rem;
+  border-radius: 50%;
+  outline: 1px solid gray;
+  outline-offset: -2px;
+}
+.post-info {
+  margin: 0;
+  font-size: 0.9rem;
+}

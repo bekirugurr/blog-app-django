@@ -1,12 +1,66 @@
 {% extends 'post/base.html' %}
+{% load static %}
 
 {% block content %}
+<div>
+  {% if request.user.is_authenticated %}
+  <h2 class="text-center">Wellcome {{request.user}}</h2>
+  {% else %}
+  <h2>Wellcome Guest!</h2>
+  {% endif %}
 
-    <h1>Home Page</h1>
-    {% if request.user.is_authenticated %}
-    <h2>Wellcome {{request.user}}!</h2>
-    {% else %}
-    <h2>Wellcome Guest!</h2>
-    {% endif %} 
 
+  <div class="d-flex flex-wrap flex-row justify-content-center align-items-start p-2 pb-4">
+    {% for post in posts %}
+    <div class="d-flex flex-column  m-3 px-3 pt-3 shadow post-card" >
+      <div class="border-bottom border-2 pb-3">
+        <img {% if post.post_pic %} src="{{ post.post_pic.url }}" {% else %}
+          src="{% static 'post/default-post-pic.png' %}" {% endif %} alt="post pic" class="rounded post-pic">
+
+      </div>
+      <div class="d-flex flex-column px-2 pt-3 ">
+
+        <h4><a href="" style="text-decoration: none;">{{ post.title }}</a></h4>
+        <p style="height: 4.7rem;" class="overflow-hidden">{{ post.content }}</p>
+
+        <div class="d-flex flex-row px-2">
+          <p class="pe-3">
+            <img src="{% static 'post/chat-left-text.svg' %}" alt="" style="height: 1.2rem;">
+            {{ post.comment_num }}
+          </p>
+          <p class="pe-3">
+            <img src="{% static 'post/eye-fill.svg' %}" alt="" style="height: 1.5rem;">
+            {{ post.view_num }}
+          </p>
+          <p class="pe-3">
+
+            <img 
+              {% if user.id in post.who_liked_id_arr %} 
+              src="{% static 'post/suit-heart-fill.svg' %}"   
+              {% else %}
+              src="{% static 'post/suit-heart.svg' %}" 
+              {% endif %} 
+              alt="" style="height: 1.3rem;">
+            {{ post.like_num }}
+          </p>
+        </div>
+        <div class="d-flex flex-row mb-2 ">
+          <img {% if post.writer_pic %}
+          src="{{ post.writer_pic.url }}"
+          {% else %}
+          src="{% static 'post/avatar.png' %}" 
+          {% endif %}
+          alt="" class="me-3 writer-pic">
+          <div>
+            <p class="fw-light post-info"> Written by {{ post.writer_name }}</p>
+            <p class="fw-light post-info" >Posted {{ post.elapsed_time }} ago</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+</div>
 {% endblock content %}
+
