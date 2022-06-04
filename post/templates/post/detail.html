@@ -1,0 +1,97 @@
+{% extends 'post/base.html' %}
+{% load static %}
+
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+
+<div class="d-flex justify-content-center " >
+
+    <div class="d-flex flex-column mt-3 p-3 border rounded detail-card">
+        <div class="p-2">
+
+            <img {% if post.post_pic %} 
+            src="{{ post.post_pic.url }}" 
+            {% else %}
+            src="{% static 'post/default-post-pic.png' %}" 
+            {% endif %} 
+            alt="post pic" class="rounded detail-post-pic">
+            
+        </div>
+        <h2 class="border-bottom pb-3 ps-2">{{ post.title }}</h2>
+        <div  class="d-flex flex-row justify-content-between px-2 border-bottom">
+            <div class="d-flex flex-row ps-1">
+                <p class="pe-3">
+                  <img src="{% static 'post/chat-left-text.svg' %}" alt="" style="height: 1.2rem;">
+                  {{ post.comment_num }}
+                </p>
+                <p class="pe-3">
+                  <img src="{% static 'post/eye-fill.svg' %}" alt="" style="height: 1.5rem;">
+                  {{ post.view_num }}
+                </p>
+                
+                {% comment %}
+                <a href="{% url 'change_like' post.slug %}"> </a>
+                    
+                {% endcomment %}
+                    
+                <p class="pe-1" >
+      
+                  <img 
+                    {% if user.id in post.who_liked_id_arr %} 
+                    src="{% static 'post/suit-heart-fill.svg' %}"   
+                    {% else %}
+                    src="{% static 'post/suit-heart.svg' %}" 
+                    {% endif %} 
+                    alt="" style="height: 1.3rem;">
+                  {{ post.like_num }}
+                </p>
+
+            </div>
+              <p> Posted by <strong>{{ post.writer_name }} </strong> - {{ post.elapsed_time }} ago.</p>
+             
+        </div>
+        <p class="border-bottom pb-4 ps-2">{{ post.content }}</p>
+        <div class="border-bottom " style="margin-top: -1.5rem; ">
+            <h3 class="ps-2">Leave a comment below</h3>
+            <form action=""  enctype="multipart/form-data" method="post" class=" pb-3 ps-2">
+                {% csrf_token %} 
+                {{form | crispy}}
+                <button type="submit" class="btn btn-outline-primary">Send</button>
+            </form>
+        </div>
+        
+        {% if post.comment_num  %}
+        <div  class="d-flex flex-column px-2">
+            <h3>Comments</h3>
+            
+            {% for comment in post.comments  %}
+                <div class="border-bottom mt-2">
+                    <p style="font-size: 0.8rem;"> <strong>Comment by {{ comment.commenter }}</strong> - {{ comment.elapsed_time }} ago</p>
+                    <p> {{ comment.content }}</p>
+                </div>
+            {% endfor %}
+                
+        </div>
+        {% endif %}
+
+         
+         {% if post.writer_id == request.user.id %}
+
+        <div class="d-flex flex-row justify-content-evenly" >
+            <a href=""><button class="btn btn-info text-white" style="width: 5rem;">Edit</button></a>
+            <a href="{% url 'post_delete' post.slug %}"><button class="btn btn-danger" style="width: 5rem;">Delete</button></a>
+        </div>
+
+         {% endif %}
+             
+            
+        
+        
+        
+    </div>
+
+</div>
+
+{% endblock content %}

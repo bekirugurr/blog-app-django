@@ -1,4 +1,7 @@
 from datetime import datetime, timedelta
+import random
+import string
+
 
 def elapsed_time(start):
     now = datetime.now() - timedelta(hours=3)
@@ -32,5 +35,11 @@ def elapsed_time(start):
         else:
             return '1 minute'
 
-    
-print(datetime.now())
+
+def get_random_alphanumeric_string(length):
+    letters_and_digits = string.ascii_letters + string.digits
+    result_str = ''.join((random.choice(letters_and_digits) for i in range(length)))
+    return result_str
+
+num = get_random_alphanumeric_string(8)
+print(type(get_random_alphanumeric_string(8)))

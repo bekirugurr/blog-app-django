@@ -4,7 +4,7 @@
 {% block content %}
 <div>
   {% if request.user.is_authenticated %}
-  <h2 class="text-center">Wellcome {{request.user}}</h2>
+  <h2 class="text-center">Wellcome {{ request.user }}</h2>
   {% else %}
   <h2>Wellcome Guest!</h2>
   {% endif %}
@@ -12,7 +12,8 @@
 
   <div class="d-flex flex-wrap flex-row justify-content-center align-items-start p-2 pb-4">
     {% for post in posts %}
-    <div class="d-flex flex-column  m-3 px-3 pt-3 shadow post-card" >
+    <a href="{% url 'detail' post.slug %}" style="text-decoration: none; color: black;">
+    <div class="d-flex flex-column  m-3 px-3 pt-3 post-card" >
       <div class="border-bottom border-2 pb-3">
         <img {% if post.post_pic %} src="{{ post.post_pic.url }}" {% else %}
           src="{% static 'post/default-post-pic.png' %}" {% endif %} alt="post pic" class="rounded post-pic">
@@ -20,7 +21,8 @@
       </div>
       <div class="d-flex flex-column px-2 pt-3 ">
 
-        <h4><a href="" style="text-decoration: none;">{{ post.title }}</a></h4>
+        <!-- <h4><a href="" style="text-decoration: none;">{{ post.title }}</a></h4> -->
+        <h4>{{ post.title }}</h4>
         <p style="height: 4.7rem;" class="overflow-hidden">{{ post.content }}</p>
 
         <div class="d-flex flex-row px-2">
@@ -57,7 +59,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div></a>
     {% endfor %}
   </div>
 </div>

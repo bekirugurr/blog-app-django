@@ -1,4 +1,4 @@
-from .models import  Post, Category
+from .models import  Post, Comment
 from django import forms
 
 class NewPostForm(forms.ModelForm):
@@ -15,10 +15,11 @@ class NewPostForm(forms.ModelForm):
             } 
 
 
-# class PostCategoryForm(forms.ModelForm):
-#     class Meta:
-#         model = Category
-#         fields = '__all__'
-#         widgets = {
-#                 'category': forms.Select(attrs={'style' : 'padding: .5rem 1rem; border-color: #0D6EFD; width: 16rem'}),
-#             } 
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('content', )
+        labels = {'content': 'Comment'}
+        widgets = {
+                'content': forms.Textarea(attrs={'placeholder': '  🙉 🙊 🙊 \nMake a comment about the post ', 'class': 'input-style', 'rows' :7, 'style':'resize: none; margin: 1rem 0; padding: .5rem 1rem;  border-color: #0D6EFD;' }),
+            } 

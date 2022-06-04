@@ -2,6 +2,7 @@ from turtle import title
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+from .functions import get_random_alphanumeric_string
 
 
 # Create your models here.
@@ -37,12 +38,12 @@ class Post(models.Model):
         return f'{self.title}'
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = slugify(self.title) + '-' + get_random_alphanumeric_string(8)
         super().save(*args, **kwargs)
 
 
 class Comment(models.Model):
-    content = models.TextField(max_length=300, null=True, blank=True)
+    content = models.TextField(max_length=300)
     date_stamp = models.DateTimeField(auto_now_add=True)
     commenter = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True)

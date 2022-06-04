@@ -1,6 +1,6 @@
 from msilib.schema import PublishComponent
 from django.shortcuts import render, redirect
-from .forms import NewPostForm
+from .forms import NewPostForm, CommentForm
 from .models import Post, Category, Comment, Like, PostView
 from user.models import Profile
 from django.contrib.auth.models import User
@@ -19,7 +19,10 @@ def home(request):
         else:
             post.writer_pic = False
         post.comment_num = Comment.objects.filter(post_id=post.id).count()
-        post.view_num = PostView.objects.filter(post_id=post.id).count()
+        if  PostView.objects.filter(post_id=post.id):
+            post.view_num  = PostView.objects.get(post_id=post.id).time_tamp 
+        else:
+            post.view_num = 0
         post.like_num = Like.objects.filter(post_id=post.id).count()
         post.who_liked_id_arr = []
         for i in Like.objects.filter(post_id=post.id):
@@ -41,9 +44,66 @@ def new_entry(request):
             if "post_pic" in request.FILES:
                 entry.post_pic = request.FILES.get('post_pic') 
             entry.save()
-            messages.success(request, "New Post Added Succesfully")
+            messages.success(request, "New post added succesfully")
             return redirect('home')
     context = {
         'form': form,
     }
     return render(request, 'post/new_entry.html', context)
+
+def detail(request, slug):
+    post = Post.objects.get(slug=slug)
+    post.writer_name = User.objects.get(id=post.writer_id).username
+    publish_time = post.publish_date
+    post.elapsed_time = elapsed_time(publish_time)
+    post.comment_num = Comment.objects.filter(post_id=post.id).count()  
+    if  PostView.objects.filter(post_id=post.id):
+        view_ins = PostView.objects.get(post_id=post.id)
+        view_ins.time_tamp += 1
+        view_ins.save() 
+    else:
+        view_ins = PostView(post_id=post.id, time_tamp=1)
+        view_ins.save()
+    post.view_num = view_ins.time_tamp
+    post.like_num = Like.objects.filter(post_id=post.id).count()
+    post.comments = Comment.objects.filter(post_id=post.id) 
+    post.who_liked_id_arr = []
+    for i in Like.objects.filter(post_id=post.id):
+        post.who_liked_id_arr.append(i.who_liked_id)  
+    for comment in post.comments:
+        comment.elapsed_time = elapsed_time(comment.date_stamp)
+    form = CommentForm()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment_data = form.save()
+            comment_data.post_id = post.id
+            comment_data.commenter_id = request.user.id
+            comment_data.save()
+            messages.success(request, 'New comment added succesfully')
+            return redirect('home')
+    context = {
+        'post' : post,
+        'form' : form,
+    }
+    return render(request, 'post/detail.html', context)
+
+def post_delete(request, slug):
+    post = Post.objects.get(slug=slug)
+    if request.method == 'POST':
+        post.delete()
+        messages.success(request, 'Post deleted succesfully')
+        return redirect('home')
+    context= {
+        'post' : post
+    }
+    return render(request, 'post/post_delete.html', context)
+
+# def change_like(request, slug):
+#     post = Post.objects.get(slug=slug)
+#     who_liked_id_arr = []
+#     for i in Like.objects.filter(post_id=post.id):
+#         who_liked_id_arr.append(i.who_liked_id) 
+#     if request.user.id in who_liked_id_arr:
+
