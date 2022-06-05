@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, new_entry, detail, post_delete, change_like
+from .views import home, new_entry, detail, post_delete, change_like, post_update
 
 urlpatterns = [
     path('', home, name='home'),
@@ -7,6 +7,5 @@ urlpatterns = [
     path('detail/<slug:slug>/', detail, name='detail'), 
     path('post_delete/<slug:slug>/', post_delete, name='post_delete'), 
     path('change_like/<slug:slug>/', change_like, name='change_like'), 
-
-
+    path('post_update/<slug:slug>/', post_update, name='post_update'), 
 ]

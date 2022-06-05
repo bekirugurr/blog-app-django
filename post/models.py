@@ -25,7 +25,7 @@ class Post(models.Model):
     ('Draft' , 'Draft')
     )
     title = models.CharField(max_length=50)
-    content = models.TextField(null=True, blank=True)
+    content = models.TextField()
     post_pic = models.ImageField(upload_to='post_pics', blank=True)
     publish_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)

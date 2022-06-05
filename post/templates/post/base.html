@@ -30,9 +30,9 @@
         {% if messages %}
         {% for message in messages %}
         {% if message.tags == "error" %}
-        <div class="alert alert-danger">{{ message }}</div>
+        <div class="alert alert-danger" style="width: 20rem; position: absolute; top: 4.5rem; right: 1rem; border-bottom: 4px solid crimson;">{{ message }}</div>
         {% else %}
-        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        <div class="alert alert-{{ message.tags }}" style="width: 20rem; position: absolute; top: 4.5rem; right: 1rem; border-bottom: 4px solid dodgerblue;">{{ message }}</div>
         {% endif %}
         {% endfor %}
         {% endif %}

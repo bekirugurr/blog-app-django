@@ -1,11 +1,9 @@
-from msilib.schema import PublishComponent
 from django.shortcuts import render, redirect
 from .forms import NewPostForm, CommentForm
 from .models import Post, Category, Comment, Like, PostView
 from user.models import Profile
 from django.contrib.auth.models import User
 from django.contrib import messages
-from datetime import datetime
 from .functions import elapsed_time
 
 def home(request):
@@ -82,7 +80,8 @@ def detail(request, slug):
             comment_data.commenter_id = request.user.id
             comment_data.save()
             messages.success(request, 'New comment added succesfully')
-            return redirect(f'/detail/{slug}/')
+            return redirect('detail', slug=slug)
+            #return redirect(f'/detail/{slug}/')
     context = {
         'post' : post,
         'form' : form,
@@ -116,5 +115,23 @@ def change_like(request, slug):
     view_ins = PostView.objects.get(post_id=post.id)
     view_ins.time_tamp -= 1
     view_ins.save()
-    return redirect(f'/detail/{slug}/')
+    return redirect('detail', slug=slug)
+    #return redirect(f'/detail/{slug}/')
     
+def post_update(request, slug):
+    post = Post.objects.get(slug=slug) 
+    form = NewPostForm(instance=post)
+    if request.method == 'POST':
+        form = NewPostForm(request.POST,request.FILES, instance=post)
+        if form.is_valid():
+            entry = form.save()
+            if "post_pic" in request.FILES:
+                entry.post_pic = request.FILES.get('post_pic') 
+            entry.save()
+            messages.success(request, "Post updated succesfully")
+            return redirect('home')
+    context = {
+        'form' : form
+    }
+    return render(request, 'post/update.html', context)
+
