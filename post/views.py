@@ -135,3 +135,5 @@ def post_update(request, slug):
     }
     return render(request, 'post/update.html', context)
 
+def about_me(request):
+    return render(request, 'post/about.html')
