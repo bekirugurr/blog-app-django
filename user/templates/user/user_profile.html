@@ -7,10 +7,13 @@
   <div class="col-md-8 col-lg-8 mx-auto my-2 border" style="padding: 1rem 2rem">
     <div class="d-flex flax-row">
       <div class="mx-3">
-        {% if request.user.profile.profile_pic %}
         <img
+        {% if request.user.profile.profile_pic %}
           src="{{ request.user.profile.profile_pic.url }}"
-          alt="default profile pic"
+          {% else %}
+          src="{% static 'post/avatar.png' %}"
+          {% endif %}
+          alt="profile pic"
           style="
             height: 7rem;
             width: 7rem;
@@ -18,18 +21,6 @@
             margin: 0.5rem 0;
           "
         />
-        {% else %}
-        <img
-          src="{% static 'post/avatar.png' %}"
-          alt="default profile pic"
-          style="
-          height: 7rem;
-          width: 7rem;
-          border-radius: 50%;
-          margin: 0.5rem 0;
-        "
-        />
-        {% endif %}
       </div>
       <div class="p-3">
           <h1>{{ user.username }}</h1>
