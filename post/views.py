@@ -82,7 +82,7 @@ def detail(request, slug):
             comment_data.commenter_id = request.user.id
             comment_data.save()
             messages.success(request, 'New comment added succesfully')
-            return redirect('home')
+            return redirect(f'/detail/{slug}/')
     context = {
         'post' : post,
         'form' : form,
@@ -100,10 +100,21 @@ def post_delete(request, slug):
     }
     return render(request, 'post/post_delete.html', context)
 
-# def change_like(request, slug):
-#     post = Post.objects.get(slug=slug)
-#     who_liked_id_arr = []
-#     for i in Like.objects.filter(post_id=post.id):
-#         who_liked_id_arr.append(i.who_liked_id) 
-#     if request.user.id in who_liked_id_arr:
-
+def change_like(request, slug):
+    post = Post.objects.get(slug=slug) 
+    liked_id = 0
+    for i in  Like.objects.filter(post_id=post.id):
+        if i.who_liked_id ==  request.user.id: 
+            liked_id = i.id
+    if liked_id:
+        instance = Like.objects.get(id=liked_id)
+        instance.delete()
+    else:
+        instance = Like(post_id=post.id, who_liked_id=request.user.id)
+        instance.save()
+    #* alttaki redirect satırıyla detail sayfasını yeniden yüklüyeceği için görülme saysını bir artıracak, alttaki üç satırla okundu sayısının gereksiz artması engelleniyor
+    view_ins = PostView.objects.get(post_id=post.id)
+    view_ins.time_tamp -= 1
+    view_ins.save()
+    return redirect(f'/detail/{slug}/')
+    

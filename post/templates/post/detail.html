@@ -31,13 +31,8 @@
                   {{ post.view_num }}
                 </p>
                 
-                {% comment %}
-                <a href="{% url 'change_like' post.slug %}"> </a>
-                    
-                {% endcomment %}
-                    
+                <a href="{% url 'change_like' post.slug %}" style="text-decoration: none; color: black;"> 
                 <p class="pe-1" >
-      
                   <img 
                     {% if user.id in post.who_liked_id_arr %} 
                     src="{% static 'post/suit-heart-fill.svg' %}"   
@@ -47,6 +42,7 @@
                     alt="" style="height: 1.3rem;">
                   {{ post.like_num }}
                 </p>
+            </a>
 
             </div>
               <p> Posted by <strong>{{ post.writer_name }} </strong> - {{ post.elapsed_time }} ago.</p>

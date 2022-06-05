@@ -41,5 +41,3 @@ def get_random_alphanumeric_string(length):
     result_str = ''.join((random.choice(letters_and_digits) for i in range(length)))
     return result_str
 
-num = get_random_alphanumeric_string(8)
-print(type(get_random_alphanumeric_string(8)))
