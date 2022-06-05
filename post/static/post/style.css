@@ -8,13 +8,19 @@
   border: 2px solid transparent;
   border-radius: 5px;
   background: linear-gradient(to right, white, white),
-    linear-gradient(135deg, rgb(152, 36, 57), rgb(236, 162, 175));
+    linear-gradient(135deg, rgb(186, 64, 86), rgb(233, 180, 190));
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
-  box-shadow: 7px 10px 10px #888888;
+  box-shadow: 7px 10px 8px #888888;
 }
 .post-card:hover{
-    box-shadow: 10px 13px 10px #888888;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background: linear-gradient(to right,rgb(247, 241, 241) , rgb(247, 241, 241)),
+  linear-gradient(135deg, rgb(186, 64, 86), rgb(233, 180, 190));
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  box-shadow: 10px 13px 12px #888888;
 }
 
 .post-pic {

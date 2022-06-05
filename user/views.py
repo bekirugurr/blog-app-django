@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 
 
+#* yeni user oluşturunca ona boş bir profile de oluşturuyorum
 
 def register(request):
     register_form = RegisterForm()
@@ -48,20 +49,15 @@ def user_login(request):
 
 @login_required
 def user_profile(request):
-    if request.method == 'POST':
-        user_form = UpdateUserForm(request.POST, instance=request.user)
-        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
-
-        if user_form.is_valid() and profile_form.is_valid():
+    user_form = UpdateUserForm(request.POST or None, instance=request.user)
+    profile_form = UpdateProfileForm(request.POST or None, request.FILES or None, instance=request.user.profile)
+    if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             profile = profile_form.save(commit=False)
             profile.user = user
             profile.save()
             messages.success(request, 'Your profile is updated successfully')
-            return redirect('user_profile')
-    else:
-        user_form = UpdateUserForm(instance=request.user)
-        profile_form = UpdateProfileForm(instance=request.user.profile)
+            return redirect('home')
 
     context = {
         'user_form': user_form, 

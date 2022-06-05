@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 3rd part apps 
     'crispy_forms',
-    'fontawesomefree',
     # my apps
     'user',
     'post',
