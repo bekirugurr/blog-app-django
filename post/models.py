@@ -53,6 +53,6 @@ class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True)
 
 class PostView(models.Model):
-    time_tamp = models.IntegerField(blank=True, null=True)
+    who_viewed = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True) 
     post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True)
 

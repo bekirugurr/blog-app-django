@@ -17,10 +17,7 @@ def home(request):
         else:
             post.writer_pic = False
         post.comment_num = Comment.objects.filter(post_id=post.id).count()
-        if  PostView.objects.filter(post_id=post.id):
-            post.view_num  = PostView.objects.get(post_id=post.id).time_tamp 
-        else:
-            post.view_num = 0
+        post.view_num = PostView.objects.filter(post_id=post.id).count()
         post.like_num = Like.objects.filter(post_id=post.id).count()
         post.who_liked_id_arr = []
         for i in Like.objects.filter(post_id=post.id):
@@ -55,14 +52,13 @@ def detail(request, slug):
     publish_time = post.publish_date
     post.elapsed_time = elapsed_time(publish_time)
     post.comment_num = Comment.objects.filter(post_id=post.id).count()  
-    if  PostView.objects.filter(post_id=post.id):
-        view_ins = PostView.objects.get(post_id=post.id)
-        view_ins.time_tamp += 1
-        view_ins.save() 
-    else:
-        view_ins = PostView(post_id=post.id, time_tamp=1)
+    post.who_viewed_id_arr = []
+    for i in PostView.objects.filter(post_id=post.id):
+        post.who_viewed_id_arr.append(i.who_viewed_id)
+    if not request.user.id in post.who_viewed_id_arr: 
+        view_ins = PostView(post_id=post.id, who_viewed_id=request.user.id)
         view_ins.save()
-    post.view_num = view_ins.time_tamp
+    post.view_num = PostView.objects.filter(post_id=post.id).count()
     post.like_num = Like.objects.filter(post_id=post.id).count()
     post.comments = Comment.objects.filter(post_id=post.id) 
     post.who_liked_id_arr = []
@@ -111,10 +107,6 @@ def change_like(request, slug):
     else:
         instance = Like(post_id=post.id, who_liked_id=request.user.id)
         instance.save()
-    #* alttaki redirect satırıyla detail sayfasını yeniden yüklüyeceği için görülme saysını bir artıracak, alttaki üç satırla okundu sayısının gereksiz artması engelleniyor
-    view_ins = PostView.objects.get(post_id=post.id)
-    view_ins.time_tamp -= 1
-    view_ins.save()
     return redirect('detail', slug=slug)
     #return redirect(f'/detail/{slug}/')
     
