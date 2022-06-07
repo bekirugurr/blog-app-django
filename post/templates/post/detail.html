@@ -60,7 +60,7 @@
               <p> Posted by <strong>{{ post.writer_name }} </strong> - {{ post.elapsed_time }} ago.</p>
              
         </div>
-        <p class="border-bottom pb-4 ps-2">{{ post.content }}</p>
+        <p class="border-bottom pb-4 ps-2">{{ post.content|linebreaks }}</p>
 
         {% if request.user.is_authenticated %}
                 <div class="border-bottom " style="margin-top: -1.5rem; ">

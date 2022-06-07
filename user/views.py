@@ -47,7 +47,7 @@ def user_login(request):
     return render(request, 'user/login.html', {"form": login_form})
 
 
-@login_required
+@login_required(login_url='user_login')
 def user_profile(request):
     user_form = UpdateUserForm(request.POST or None, instance=request.user)
     profile_form = UpdateProfileForm(request.POST or None, request.FILES or None, instance=request.user.profile)
@@ -65,30 +65,3 @@ def user_profile(request):
     }
     return render(request, 'user/user_profile.html', context)
 
-
-
-# def deneme(request):
-#     form_user = UserForm()
-#     form_profile = UserProfileForm()
-
-#     if request.method == 'POST':
-#         form_user = UserForm(request.POST)
-#         form_profile = UserProfileForm(request.POST, request.FILES)
-
-#         if form_user.is_valid() and form_profile.is_valid():
-#             user = form_user.save()
-#             profile = form_profile.save(commit=False)
-#             profile.user = user
-#             profile.save()
-            
-#             login(request, user)
-#             messages.success(request, 'Register Succesfull')
-
-#             return redirect('home')
-
-#     context = {
-#         "form_user": form_user,
-#         "form_profile": form_profile
-#     }
-
-#     return render(request, 'users/register.html',context)

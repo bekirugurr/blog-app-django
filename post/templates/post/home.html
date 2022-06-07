@@ -13,7 +13,7 @@
   <div class="d-flex flex-wrap flex-row justify-content-center align-items-start p-2 pb-4">
     {% for post in posts %}
     <a href="{% url 'detail' post.slug %}" style="text-decoration: none; color: black;">
-    <div class="d-flex flex-column  m-3 px-3 pt-3 post-card" >
+    <div class="d-flex flex-column justify-content-between m-3 px-3 pt-3 pb-2 post-card" >
       <div class="border-bottom border-2 pb-3">
         <img {% if post.post_pic %} src="{{ post.post_pic.url }}" {% else %}
           src="{% static 'post/default-post-pic.png' %}" {% endif %} alt="post pic" class="rounded post-pic">

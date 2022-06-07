@@ -1,17 +1,27 @@
 {% extends 'base.html' %} 
 {% block content %} 
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags %} 
 
-<div class="row" >
-    <div class="col-md-8 col-lg-8 mx-auto my-2 border" style="padding: 1rem 2rem">
-        <h3 class="border-bottom mx-3 mb-2 pb-3">Blog Post</h3>
+{% if post.writer_id == request.user.id %}
+<div class="row">
+  <div class="col-md-8 col-lg-8 mx-auto my-2 border" style="padding: 1rem 2rem">
+    <h3 class="border-bottom mx-3 mb-2 pb-3">Blog Post</h3>
 
-        <form action=""  enctype="multipart/form-data" method="post" class="mx-3  pb-4 border-bottom">
-            {% csrf_token %} 
-            {{form | crispy}}
-            <button type="submit" class="btn btn-outline-primary mt-3">Update</button>
-        </form>
-    </div>
+    <form
+      action=""
+      enctype="multipart/form-data"
+      method="post"
+      class="mx-3 pb-4 border-bottom"
+    >
+      {% csrf_token %} {{form | crispy}}
+      <button type="submit" class="btn btn-outline-primary mt-3">Update</button>
+    </form>
+  </div>
 </div>
-
+{% else %}
+<div class="border border-2 rounded p-4 mx-auto mt-5" style="width: 30rem">
+  <p>You are where you shouldn't be.</p>
+  <p>But congrats for getting this far. 👏</p>
+</div>
+{% endif %} 
 {% endblock content %}

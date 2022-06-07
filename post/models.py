@@ -24,9 +24,9 @@ class Post(models.Model):
     ('Published' , 'Published'),
     ('Draft' , 'Draft')
     )
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=40)
     content = models.TextField()
-    post_pic = models.ImageField(upload_to='post_pics', blank=True)
+    post_pic = models.ImageField(upload_to='post_pics', blank=True,  null=True)
     publish_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=50, choices=STATUS, default='Published')

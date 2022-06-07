@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import NewPostForm, CommentForm
 from .models import Post, Category, Comment, Like, PostView
 from user.models import Profile
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .functions import elapsed_time
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     posts = Post.objects.all()
@@ -28,13 +29,13 @@ def home(request):
     }
     return render(request, 'post/home.html', context)
 
-
+@login_required(login_url='user_login')
 def new_entry(request):
     form = NewPostForm()
     if request.method == 'POST':
         form = NewPostForm(request.POST, request.FILES)
         if form.is_valid():
-            entry = form.save()
+            entry = form.save(commit=False)
             entry.writer_id = request.user.id
             if "post_pic" in request.FILES:
                 entry.post_pic = request.FILES.get('post_pic') 
@@ -47,7 +48,8 @@ def new_entry(request):
     return render(request, 'post/new_entry.html', context)
 
 def detail(request, slug):
-    post = Post.objects.get(slug=slug)
+    post = get_object_or_404(Post, slug=slug)
+    #post = Post.objects.get(slug=slug) 
     post.writer_name = User.objects.get(id=post.writer_id).username
     publish_time = post.publish_date
     post.elapsed_time = elapsed_time(publish_time)
@@ -71,7 +73,7 @@ def detail(request, slug):
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
-            comment_data = form.save()
+            comment_data = form.save(commit=False)
             comment_data.post_id = post.id
             comment_data.commenter_id = request.user.id
             comment_data.save()
@@ -84,7 +86,9 @@ def detail(request, slug):
     }
     return render(request, 'post/detail.html', context)
 
-def post_delete(request, slug):
+
+@login_required(login_url='user_login')
+def post_delete(request, slug): 
     post = Post.objects.get(slug=slug)
     if request.method == 'POST':
         post.delete()
@@ -95,7 +99,8 @@ def post_delete(request, slug):
     }
     return render(request, 'post/post_delete.html', context)
 
-def change_like(request, slug):
+@login_required(login_url='user_login')
+def change_like(request, slug): 
     post = Post.objects.get(slug=slug) 
     liked_id = 0
     for i in  Like.objects.filter(post_id=post.id):
@@ -109,23 +114,26 @@ def change_like(request, slug):
         instance.save()
     return redirect('detail', slug=slug)
     #return redirect(f'/detail/{slug}/')
-    
+
+@login_required(login_url='user_login')
 def post_update(request, slug):
     post = Post.objects.get(slug=slug) 
     form = NewPostForm(instance=post)
     if request.method == 'POST':
         form = NewPostForm(request.POST,request.FILES, instance=post)
         if form.is_valid():
-            entry = form.save()
+            entry = form.save(commit=False)
             if "post_pic" in request.FILES:
                 entry.post_pic = request.FILES.get('post_pic') 
             entry.save()
             messages.success(request, "Post updated succesfully")
             return redirect('home')
     context = {
-        'form' : form
+        'form' : form,
+        'post' : post,
     }
     return render(request, 'post/update.html', context)
 
 def about_me(request):
     return render(request, 'about.html')
+    

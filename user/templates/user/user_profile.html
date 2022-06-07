@@ -36,7 +36,9 @@
       class="d-flex flex-column mx-3 pb-4 border-bottom"
       style="gap: 1rem"
     >
-      {% csrf_token %} {{ user_form | crispy }} {{ profile_form | crispy }}
+      {% csrf_token %} 
+      {{ user_form | crispy }} 
+      {{ profile_form | crispy }}
       <button type="submit" class="btn btn-outline-primary" style="width: 8rem">
         Update
       </button>
