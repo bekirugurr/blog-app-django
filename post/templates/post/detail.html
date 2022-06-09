@@ -57,7 +57,7 @@
               </p>
             {% endif %}
             </div>
-              <p> Posted by <strong>{{ post.writer_name }} </strong> - {{ post.elapsed_time }} ago.</p>
+              <p> Posted by <strong>{{ post.writer_name }} </strong> - {{ post.publish_date|timesince }} ago.</p>
              
         </div>
         <p class="border-bottom pb-4 ps-2">{{ post.content|linebreaks }}</p>
@@ -80,7 +80,7 @@
             
             {% for comment in post.comments  %}
                 <div class="border-bottom mt-2">
-                    <p style="font-size: 0.8rem;"> <strong>Comment by {{ comment.commenter }}</strong> - {{ comment.elapsed_time }} ago</p>
+                    <p style="font-size: 0.8rem;"> <strong>Comment by {{ comment.commenter }}</strong> - {{ comment.date_stamp|timesince }} ago</p>
                     <p> {{ comment.content }}</p>
                 </div>
             {% endfor %}

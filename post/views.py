@@ -4,15 +4,12 @@ from .models import Post, Category, Comment, Like, PostView
 from user.models import Profile
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .functions import elapsed_time
 from django.contrib.auth.decorators import login_required
 
 def home(request):
     posts = Post.objects.all()
     for post in posts:
         post.writer_name = User.objects.get(id=post.writer_id).username
-        publish_time = post.publish_date
-        post.elapsed_time = elapsed_time(publish_time)
         if Profile.objects.get(user_id=post.writer_id).profile_pic:
             post.writer_pic = Profile.objects.get(user_id=post.writer_id).profile_pic
         else:
@@ -52,7 +49,6 @@ def detail(request, slug):
     #post = Post.objects.get(slug=slug) 
     post.writer_name = User.objects.get(id=post.writer_id).username
     publish_time = post.publish_date
-    post.elapsed_time = elapsed_time(publish_time)
     post.comment_num = Comment.objects.filter(post_id=post.id).count()  
     post.who_viewed_id_arr = []
     for i in PostView.objects.filter(post_id=post.id):
@@ -66,8 +62,6 @@ def detail(request, slug):
     post.who_liked_id_arr = []
     for i in Like.objects.filter(post_id=post.id):
         post.who_liked_id_arr.append(i.who_liked_id)  
-    for comment in post.comments:
-        comment.elapsed_time = elapsed_time(comment.date_stamp)
     form = CommentForm()
 
     if request.method == 'POST':

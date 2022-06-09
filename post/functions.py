@@ -2,7 +2,12 @@ from datetime import datetime, timedelta
 import random
 import string
 
+def get_random_alphanumeric_string(length):
+    letters_and_digits = string.ascii_letters + string.digits
+    result_str = ''.join((random.choice(letters_and_digits) for i in range(length)))
+    return result_str
 
+#! Bu fonksiyonu kullanmadım. Bunun yerine DTL timesince filter ile hallettim
 def elapsed_time(start):
     now = datetime.now() - timedelta(hours=3)
     if now.year - start.year:
@@ -36,8 +41,4 @@ def elapsed_time(start):
             return '1 minute'
 
 
-def get_random_alphanumeric_string(length):
-    letters_and_digits = string.ascii_letters + string.digits
-    result_str = ''.join((random.choice(letters_and_digits) for i in range(length)))
-    return result_str
 
